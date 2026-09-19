@@ -1,10 +1,11 @@
 import db
 
 def get_pics():
-    sql = """SELECT id, title, sent_at, user_id
-             FROM pictures
-             GROUP BY id
-             ORDER BY id DESC"""
+    sql = """SELECT p.id, p.title, p.sent_at, p.user_id, u.username
+             FROM pictures p, users u
+             WHERE p.user_id = u.id
+             GROUP BY p.id
+             ORDER BY p.id DESC"""
     return db.query(sql)
 
 def add_pic(title, user_id):
