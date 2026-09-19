@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
@@ -58,6 +58,7 @@ def login():
 @app.route("/logout")
 def logout():
     del session["username"]
+    del session["user_id"]
     return redirect("/")
 
 @app.route("/gallery")
@@ -85,6 +86,8 @@ def show_pic(pic_id):
 @app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
 def edit_title(pic_id):
     pic = pics.get_pic(pic_id)
+    if pic["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("edit.html", pic=pic)
@@ -97,6 +100,8 @@ def edit_title(pic_id):
 @app.route("/delete/<int:pic_id>", methods=["GET", "POST"])
 def delete_pic(pic_id):
     pic = pics.get_pic(pic_id)
+    if pic["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("delete.html", pic=pic)
