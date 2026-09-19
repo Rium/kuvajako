@@ -4,6 +4,7 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
+import pics
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -47,6 +48,9 @@ def login():
 
     if check_password_hash(password_hash, password):
         session["username"] = username
+        sql = "SELECT id FROM users WHERE username = ?"
+        user_id = db.query(sql, [username])[0][0]
+        session["user_id"] = user_id
         return redirect("/")
     else:
         return render_template("login_error.html")
@@ -55,3 +59,28 @@ def login():
 def logout():
     del session["username"]
     return redirect("/")
+
+@app.route("/gallery")
+def gallery():
+    pictures = pics.get_pics()
+    test = db.query("SELECT title FROM pictures")
+    print(len(test))
+    print(test[0]["title"])
+    return render_template("gallery.html", pictures=pictures)
+
+@app.route("/add_pic")
+def add_pic():
+    return render_template("add_pic.html")
+
+@app.route("/new_pic", methods=["POST"])
+def new_pic():
+    title = request.form["title"]
+    user_id = session["user_id"]
+
+    pic_id = pics.add_pic(title, user_id)
+    return redirect("/pic/" + str(pic_id))
+
+@app.route("/pic/<int:pic_id>")
+def show_pic(pic_id):
+    pic = pics.get_pic(pic_id)
+    return render_template("pic.html", pic=pic)

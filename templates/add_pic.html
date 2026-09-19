@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Add a picture</title>
+</head>
+
+<body>
+  {% if session.username %}
+  <h1>Add a picture</h1>
+  <form action="/new_pic" method="post">
+    <p>
+      Title: <br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+      <input type="submit" value="Send" />
+    </p>
+  </form>
+  {% else %}
+  How did you get here?
+  {% endif %}
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Gallery</title>
+</head>
+
+<body>
+  <h1>Picture gallery</h1>
+  <p>
+    <a href="/">Back to the front page</a>
+  </p>
+  {% if session.username %}
+  <p>
+    <a href="/add_pic">Add a picture to the gallery</a>
+  </p>
+  {% endif %}
+  <p><hr /></p>
+  {% for pic in pictures %}
+  <p>
+    <a href="/pic/{{ pic.id }}">{{ pic.title }}</a>
+    <br />
+    Added by user {{ pic.user }} at {{ pic.sent_at }}
+  </p>
+  <hr />
+  {% endfor %}
+</body>
+
+</html>
