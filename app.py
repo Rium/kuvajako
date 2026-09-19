@@ -20,13 +20,13 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "The passwords do not match"
+        return render_template("mismatch.html")
     password_hash = generate_password_hash(password1)
 
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])
     except sqlite3.IntegrityError:
-        return "Username already in use"
+        return render_template("used.html")
 
-    return "Account created :)"
+    return render_template("done.html")
