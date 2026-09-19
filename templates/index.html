@@ -8,9 +8,20 @@
 <body>
   <h1>Rium's project</h1>
   <p>Under construction</p>
+  {% if session.username %}
+  <p>
+    Hello {{ session.username }}
+  </p>
+  <p>
+    <a href="/logout">logout</a>
+  </p>
+  {% else %}
   <p>
     <a href="/register">Create an account</a>
+    | 
+    <a href="/login_page">Login</a>
   </p>
+  {% endif %} 
 </body>
 
 </html>
