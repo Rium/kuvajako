@@ -93,3 +93,16 @@ def edit_title(pic_id):
         new_title = request.form["new_title"]
         pics.update_title(pic["id"], new_title)
         return redirect("/pic/" + str(pic_id))
+
+@app.route("/delete/<int:pic_id>", methods=["GET", "POST"])
+def delete_pic(pic_id):
+    pic = pics.get_pic(pic_id)
+
+    if request.method == "GET":
+        return render_template("delete.html", pic=pic)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            pics.delete_pic(pic["id"])
+            return redirect("/gallery")
+        return redirect("/pic/" + str(pic_id))

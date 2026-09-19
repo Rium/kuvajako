@@ -10,7 +10,8 @@
   <hr />
   {% if session.user_id == pic.user_id %}
   <p>
-    <a href="/edit/{{ pic.id }}">Edit the title</a>
+    <a href="/edit/{{ pic.id }}">Edit the title</a> | 
+    <a href="/delete/{{ pic.id }}">Delete</a>
   </p>
   {% endif %}
   <p>

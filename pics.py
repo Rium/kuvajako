@@ -20,3 +20,7 @@ def get_pic(pic_id):
 def update_title(pic_id, new_title):
     sql = "UPDATE pictures SET title = ? WHERE id = ?"
     db.execute(sql, [new_title, pic_id])
+
+def delete_pic(pic_id):
+    sql = "DELETE FROM pictures WHERE id = ?"
+    db.execute(sql, [pic_id])
