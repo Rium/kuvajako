@@ -63,9 +63,6 @@ def logout():
 @app.route("/gallery")
 def gallery():
     pictures = pics.get_pics()
-    test = db.query("SELECT title FROM pictures")
-    print(len(test))
-    print(test[0]["title"])
     return render_template("gallery.html", pictures=pictures)
 
 @app.route("/add_pic")
@@ -84,3 +81,15 @@ def new_pic():
 def show_pic(pic_id):
     pic = pics.get_pic(pic_id)
     return render_template("pic.html", pic=pic)
+
+@app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
+def edit_title(pic_id):
+    pic = pics.get_pic(pic_id)
+
+    if request.method == "GET":
+        return render_template("edit.html", pic=pic)
+
+    if request.method == "POST":
+        new_title = request.form["new_title"]
+        pics.update_title(pic["id"], new_title)
+        return redirect("/pic/" + str(pic_id))

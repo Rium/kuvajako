@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Title edit</title>
+</head>
+
+<body>
+  {% if session.user_id == pic.user_id %}
+  <h1>Title edit</h1>
+
+  <form action="/edit/{{ pic.id }}" method="post">
+    <p>
+      Title:<br />
+      <textarea name="new_title" rows="1" cols="40">{{ pic.title }}</textarea>
+    </p>
+    <input type="submit" value="Apply" />
+  </form>
+  {% else %}
+  What are you doing here?
+  You can find your own way out.
+  {% endif %}
+</body>
+
+</html>

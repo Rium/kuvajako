@@ -14,5 +14,9 @@ def add_pic(title, user_id):
     return pic_id
 
 def get_pic(pic_id):
-    sql = "SELECT id, title FROM pictures WHERE id = ?"
+    sql = "SELECT id, title, user_id FROM pictures WHERE id = ?"
     return db.query(sql, [pic_id])[0]
+
+def update_title(pic_id, new_title):
+    sql = "UPDATE pictures SET title = ? WHERE id = ?"
+    db.execute(sql, [new_title, pic_id])
