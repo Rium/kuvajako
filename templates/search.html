@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Search</title>
+</head>
+
+<body>
+  <h1>Search results</h1>
+  {% if query %}
+  <hr /> 
+  <ul>
+  {% for result in results %}
+    <li>
+      <a href="/pic/{{ result.id }}">
+        {{ result.title }}
+      </a>
+      <br />
+      {{ result.username }} ({{ result.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
+  {% endif %}
+</body>
+
+</html>

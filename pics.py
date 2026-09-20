@@ -25,3 +25,10 @@ def update_title(pic_id, new_title):
 def delete_pic(pic_id):
     sql = "DELETE FROM pictures WHERE id = ?"
     db.execute(sql, [pic_id])
+
+def search(query):
+    sql = """SELECT p.id, p.title, p.sent_at, p.user_id, u.username
+             FROM pictures p, users u
+             WHERE p.user_id = u.id AND p.title LIKE ?
+             ORDER BY p.sent_at DESC"""
+    return db.query(sql, ["%" + query + "%"])

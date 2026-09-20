@@ -111,3 +111,9 @@ def delete_pic(pic_id):
             pics.delete_pic(pic["id"])
             return redirect("/gallery")
         return redirect("/pic/" + str(pic_id))
+
+@app.route("/search")
+def search():
+    query = request.args.get("query")
+    results = pics.search(query) if query else []
+    return render_template("search.html", query=query, results=results)

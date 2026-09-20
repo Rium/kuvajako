@@ -15,7 +15,18 @@
     <a href="/add_pic">Add a picture to the gallery</a>
   </p>
   {% endif %}
-  <p><hr /></p>
+  <form action="/search" method="get">
+    <p>
+      Search from gallery:
+      {% if query %}
+      <input type="text" name="query" value="{{ query }}" />
+      {% else %}
+      <input type="text" name="query" />
+      {% endif %}
+    </p>
+    <input type="submit" value="Search" />
+  </form>
+  <hr />
   {% for pic in pictures %}
   <p>
     <a href="/pic/{{ pic.id }}">{{ pic.title }}</a>
