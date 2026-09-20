@@ -1,5 +1,12 @@
 # Kuvajako
 
+Sovelluksen käynnistäminen:
+Lataa tiedostot omalle koneelle.
+Sijoita tiedostoon jossa toimii flask.
+Suorita komento "sqlite3 database.db < schema.sql" (ilman heittomerkkejä) tietokannan luomiseksi.
+Käynnistä flask komennolla "flask run" ja avaa sivu http://127.0.0.1:5000 haluamallasi selaimella.
+
+Tavoitteet:
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
 * Käyttäjä pystyy lisäämään sovellukseen kuvia kuvaavan tekstin kanssa. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään kuvia. Käyttäjä voi halutessaan lisätä kuviin tagejä ennalta olevasta listasta.
 * Käyttäjä näkee sovellukseen lisätyt kuvat. Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät kuvat.
