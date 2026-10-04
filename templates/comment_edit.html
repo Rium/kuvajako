@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Comment edit</title>
+</head>
+
+<body>
+  {% if session.user_id == comment.user_id %}
+  <h1>Comment edit</h1>
+
+  <form action="/comment_edit/{{ comment.id }}" method="post">
+    <p>
+      Title:<br />
+      <textarea name="new_comment" rows="5" cols="40" maxlength="500" required>{{ comment.content }}</textarea>
+    </p>
+    <input type="submit" value="Apply" />
+  </form>
+  {% else %}
+  What are you doing here? <br />
+  You can find your own way out.
+  {% endif %}
+</body>
+
+</html>

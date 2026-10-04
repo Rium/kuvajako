@@ -164,3 +164,31 @@ def new_comment():
 
     pics.add_comment(content, user_id, pic_id)
     return redirect("/pic/" + str(pic_id))
+
+@app.route("/comment_edit/<int:comment_id>", methods=["GET", "POST"])
+def edit_comment(comment_id):
+    comment = pics.get_comment(comment_id)
+    if comment["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("comment_edit.html", comment=comment)
+
+    if request.method == "POST":
+        new_comment = request.form["new_comment"]
+        pics.update_comment(comment["id"], new_comment)
+        return redirect("/pic/" + str(comment["pic_id"]))
+
+@app.route("/comment_delete/<int:comment_id>", methods=["GET", "POST"])
+def delete_comment(comment_id):
+    comment = pics.get_comment(comment_id)
+    if comment["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("comment_delete.html", comment=comment)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            pics.delete_comment(comment["id"])
+        return redirect("/pic/" + str(comment["pic_id"]))

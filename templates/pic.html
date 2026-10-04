@@ -30,8 +30,8 @@
   </p>
   {% if comment.user_id == session.user_id %}
   <p>
-    <a href="/edit/{{ comment.id }}">Edit</a> |
-    <a href="/remove/{{ comment.id }}">Delete</a>
+    <a href="/comment_edit/{{ comment.id }}">Edit</a> |
+    <a href="/comment_delete/{{ comment.id }}">Delete</a>
   </p>
   {% endif %}
   <hr />
