@@ -18,3 +18,11 @@ CREATE TABLE tags (
     category TEXT,
     tag TEXT
 );
+
+CREATE TABLE comments (
+    id INTEGER PRIMARY KEY,
+    content TEXT,
+    sent_at TEXT,
+    user_id INTEGER REFERENCES users,
+    pic_id INTEGER REFERENCES pictures
+);

@@ -21,6 +21,34 @@
   <p>
     <a href="/gallery/{{ pic.gallery_id }}">Back to the gallery</a>
   </p>
+  {% for comment in comments %}
+  <p>
+    {{ comment.username }} ({{ comment.sent_at }}):
+  </p>
+  <p>
+    {{ comment.content }}
+  </p>
+  {% if comment.user_id == session.user_id %}
+  <p>
+    <a href="/edit/{{ comment.id }}">Edit</a> |
+    <a href="/remove/{{ comment.id }}">Delete</a>
+  </p>
+  {% endif %}
+  <hr />
+  {% endfor %}
+  {% if session.user_id %}
+  <h2>Leave a comment</h2>
+
+  <form action="/new_comment" method="post">
+    <p>
+      Viesti:<br />
+      <textarea name="content" rows="5" cols="40" maxlength="500" required></textarea>
+    </p>
+    <input type="hidden" name="pic_id" value="{{ pic.id }}" />
+    <input type="submit" value="Send" />
+  </form>
+  <hr />
+  {% endif %}
 </body>
 
 </html>

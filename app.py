@@ -110,7 +110,8 @@ def new_pic():
 @app.route("/pic/<int:pic_id>")
 def show_pic(pic_id):
     pic = pics.get_pic(pic_id)
-    return render_template("pic.html", pic=pic)
+    comments = pics.get_comments(pic_id)
+    return render_template("pic.html", pic=pic, comments=comments)
 
 @app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
 def edit_title(pic_id):
@@ -154,3 +155,12 @@ def show_user(user_id):
         abort(404)
     pics = users.get_pics(user_id)
     return render_template("user.html", user=user, pics=pics)
+
+@app.route("/new_comment", methods=["POST"])
+def new_comment():
+    content = request.form["content"]
+    user_id = session["user_id"]
+    pic_id = request.form["pic_id"]
+
+    pics.add_comment(content, user_id, pic_id)
+    return redirect("/pic/" + str(pic_id))

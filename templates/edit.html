@@ -12,7 +12,7 @@
   <form action="/edit/{{ pic.id }}" method="post">
     <p>
       Title:<br />
-      <textarea name="new_title" rows="1" cols="40">{{ pic.title }}</textarea>
+      <textarea name="new_title" rows="1" cols="40" maxlength="16" required>{{ pic.title }}</textarea>
     </p>
     <input type="submit" value="Apply" />
   </form>
