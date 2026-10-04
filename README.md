@@ -1,18 +1,37 @@
 # Kuvajako
 
-Sovelluksen käynnistäminen:\
-Lataa tiedostot omalle koneelle.\
-Sijoita tiedostoon jossa toimii flask.\
-Suorita komento "sqlite3 database.db < schema.sql" (ilman heittomerkkejä) tietokannan luomiseksi.\
-Käynnistä flask komennolla "flask run" ja avaa sivu http://127.0.0.1:5000 haluamallasi selaimella.
+## Kuvaus:
+Sovellus on tarkoitettu kuvien jakamiseen ja kommentoimiseen.
+Tällä hetkellä sovelluksesta löytyy tilin tekeminen, sisään kirjautuminen, kuvien titteleiden luominen yhteen kolmesta aihealueesta, näitten muokkaaminen ja poisto, kommentointi ja näiden muokkaaminen ja poisto. Itse kuvien lisäys ja ulkoasun parantaminen olisi seuraavana. Myös hakutoiminto toimii.
 
-Tavoitteet:
-* Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-* Käyttäjä pystyy lisäämään sovellukseen kuvia kuvaavan tekstin kanssa. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään kuvia. Käyttäjä voi halutessaan lisätä kuviin tagejä ennalta olevasta listasta.
-* Käyttäjä näkee sovellukseen lisätyt kuvat. Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien lisäämät kuvat.
-* Käyttäjä pystyy lisäämään kommentteja omiin ja muiden lisäämiin kuviin.
-* Käyttäjä pystyy etsimään kuvia luokittelulla, hakusanalla tai tageillä. Käyttäjä pystyy hakemaan sekä itse lisäämiään että muiden käyttäjien lisäämiä kuvia.
-* Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja ja käyttäjän lisäämät kuvat ja kommentit.
-* Kuville on valittavissa useampia luokitteluja (valmiit projektit, kesken olevat, avuntarpeet). Valittavissa olevat luokittelut tulee määritellä tietokannassa. Käyttäjä voi valita jokaisen luokittelun kohdalla yhden vaihtoehdon.
-* Sovelluksessa on pääasiallisen tietokohteen (kuvien) lisäksi toissijainen tietokohde (kommentit), joka täydentää pääasiallista tietokohdetta. Käyttäjä pystyy lisäämään toissijaisia tietokohteita omiin ja muiden käyttäjien tietokohteisiin liittyen.
-* Sovellus on suunniteltu pienoismalliprojektien näyttämistä varten, mutta samaa pohjaa voi hieman muokkaamalla käyttää myös muuhun.
+## Sovelluksen käynnistäminen:
+### Kloonaa repositorio
+```
+git clone git@github.com:Rium/kuvajako.git
+```
+```
+Siirry komentorivillä kansioon /kuvajako
+```
+### Käynnistä virtuaaliympäristö
+```
+python3 -m venv venv
+```
+```
+source venv/bin/activate
+```
+### Alusta tietokannat
+```
+sqlite3 database.db < schema.sql
+```
+```
+sqlite3 database.db < init.sql
+```
+### Käynnistä sovellus
+```
+flask run
+```
+Sovellus löytyy nyt haluamallasi selaimella osoitteesta [http://127.0.0.1:5000]
+
+## Testaus
+Luo käyttäjätili tai kolme, kokeile lähettää "kuvia", kommentoida niitä, muokata ja poistaa.
+Tällä hetkellä tiedettynä ongelmana on että jos yrittää luoda käyttäjätiliä jo olemassa olevalla nimellä uusien tilien tekeminen lukittuu kokonaan.
