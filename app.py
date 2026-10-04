@@ -84,6 +84,12 @@ def add_pic():
 def new_pic():
     title = request.form["title"]
     user_id = session["user_id"]
+    if not title:
+        flash("Give your submission a title")
+        return render_template("add_pic.html")
+    elif len(title) > 50:
+        flash("Title length too long")
+        return render_template("add_pic.html")
 
     pic_id = pics.add_pic(title, user_id)
     return redirect("/pic/" + str(pic_id))

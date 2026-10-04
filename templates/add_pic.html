@@ -8,6 +8,9 @@
 <body>
   {% if session.username %}
   <h1>Add a picture</h1>
+  {% for message in get_flashed_messages() %}
+    <p><strong>{{ message }}</strong></p>
+  {% endfor %}
   <form action="/new_pic" method="post">
     <p>
       Title: <br />
