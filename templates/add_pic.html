@@ -16,6 +16,20 @@
       Title: <br />
       <input type="text" name="title" maxlength="50" required/>
     </p>
+  <p>
+  {% for category in all_tags %}
+  <p>
+    {{ category }}: <br />
+    <select name="tags">
+      <option value="">(Choose {{ category }})</option>
+    {% for option in all_tags[category] %}
+      <option value="{{ category }}:{{ option }}">{{ option }}</option>
+    {% endfor %}
+    </select>
+  </p>
+  {% endfor %}
+    </select>
+  </p>
     <p>
       <input type="submit" value="Send" />
     </p>

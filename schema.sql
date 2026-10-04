@@ -8,5 +8,13 @@ CREATE TABLE pictures (
     id INTEGER PRIMARY KEY,
     title TEXT,
     sent_at TEXT,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    gallery_id INTEGER REFERENCES tags,
+    tag INTEGER REFERENCES tags
+);
+
+CREATE TABLE tags (
+    id INTEGER PRIMARY KEY,
+    category TEXT,
+    tag TEXT
 );

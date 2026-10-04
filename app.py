@@ -5,6 +5,7 @@ import db
 import config
 import users
 import pics
+import tags
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -66,14 +67,15 @@ def logout():
     del session["user_id"]
     return redirect("/")
 
-@app.route("/gallery")
-def gallery():
-    pictures = pics.get_pics()
+@app.route("/gallery/<int:gallery_id>")
+def gallery(gallery_id):
+    pictures = pics.get_pics(gallery_id)
     return render_template("gallery.html", pictures=pictures)
 
 @app.route("/add_pic")
 def add_pic():
-    return render_template("add_pic.html")
+    all_tags = tags.get_tags()
+    return render_template("add_pic.html", all_tags=all_tags)
 
 @app.route("/new_pic", methods=["POST"])
 def new_pic():
@@ -86,7 +88,22 @@ def new_pic():
         flash("Title length too long")
         return render_template("add_pic.html")
 
-    pic_id = pics.add_pic(title, user_id)
+    all_tags = tags.get_tags()
+
+    added_tags = []
+    for entry in request.form.getlist("tags"):
+        if entry:
+            category, tag = entry.split(":")
+            if category not in all_tags:
+                abort(403)
+            if tag not in all_tags[category]:
+                abort(403)
+            added_tags.append((category, tag))
+
+    tag_id = [tags.get_id(added_tags[0][1])]
+    tag_id.append(tags.get_id(added_tags[1][1]))
+
+    pic_id = pics.add_pic(title, user_id, tag_id)
     return redirect("/pic/" + str(pic_id))
 
 @app.route("/pic/<int:pic_id>")

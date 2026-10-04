@@ -9,6 +9,8 @@
   <h1>{{ pic.title }}</h1>
   <hr />
   Added by <a href="/user/{{ pic.user_id }}">{{ pic.username }}</a> at {{ pic.sent_at }}
+  <br />
+  {{ pic.tag }}
   <hr />
   {% if session.user_id == pic.user_id %}
   <p>
@@ -17,7 +19,7 @@
   </p>
   {% endif %}
   <p>
-    <a href="/gallery">Back to the gallery</a>
+    <a href="/gallery/{{ pic.gallery_id }}">Back to the gallery</a>
   </p>
 </body>
 

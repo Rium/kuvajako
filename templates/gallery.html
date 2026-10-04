@@ -10,11 +10,6 @@
   <p>
     <a href="/">Back to the front page</a>
   </p>
-  {% if session.username %}
-  <p>
-    <a href="/add_pic">Add a picture to the gallery</a>
-  </p>
-  {% endif %}
   <form action="/search" method="get">
     <p>
       Search from gallery:
@@ -32,6 +27,8 @@
     <a href="/pic/{{ pic.id }}">{{ pic.title }}</a>
     <br />
     Added by <a href="/user/{{ pic.user_id }}">{{ pic.username }}</a> at {{ pic.sent_at }}
+    <br />
+    {{ pic.tag }}
   </p>
   <hr />
   {% endfor %}
