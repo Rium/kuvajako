@@ -9,9 +9,7 @@ Tällä hetkellä sovelluksesta löytyy tilin tekeminen, sisään kirjautuminen,
 ```
 git clone git@github.com:Rium/kuvajako.git
 ```
-```
 Siirry komentorivillä kansioon /kuvajako
-```
 ### Käynnistä virtuaaliympäristö
 ```
 python3 -m venv venv
@@ -30,7 +28,7 @@ sqlite3 database.db < init.sql
 ```
 flask run
 ```
-Sovellus löytyy nyt haluamallasi selaimella osoitteesta [http://127.0.0.1:5000]
+Sovellus löytyy nyt haluamallasi selaimella osoitteesta http://127.0.0.1:5000
 
 ## Testaus
 Luo käyttäjätili tai kolme, kokeile lähettää "kuvia", kommentoida niitä, muokata ja poistaa.
