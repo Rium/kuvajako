@@ -8,6 +8,8 @@
 <body>
   <h1>{{ pic.title }}</h1>
   <hr />
+  Added by <a href="/user/{{ pic.user_id }}">{{ pic.username }}</a> at {{ pic.sent_at }}
+  <hr />
   {% if session.user_id == pic.user_id %}
   <p>
     <a href="/edit/{{ pic.id }}">Edit the title</a> | 

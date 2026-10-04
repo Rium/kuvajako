@@ -31,7 +31,7 @@
   <p>
     <a href="/pic/{{ pic.id }}">{{ pic.title }}</a>
     <br />
-    Added by user {{ pic.username }} at {{ pic.sent_at }}
+    Added by <a href="/user/{{ pic.user_id }}">{{ pic.username }}</a> at {{ pic.sent_at }}
   </p>
   <hr />
   {% endfor %}
