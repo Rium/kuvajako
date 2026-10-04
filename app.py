@@ -20,11 +20,17 @@ def register():
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
+    if not username or len(username) < 3 or len(username) > 16:
+        flash("Username must be between 3 and 16 characters")
+        return render_template("register.html")
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
         flash("The passwords do not match")
         return render_template("register.html")
+    if not password1 or len(password1) < 3 or len(password1) > 16:
+            flash("Passwords must be between 3 and 16 characters")
+            return render_template("register.html")
     password_hash = generate_password_hash(password1)
 
     try:
