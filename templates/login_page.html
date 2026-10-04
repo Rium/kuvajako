@@ -6,6 +6,9 @@
 </head>
 
 <body>
+  {% for message in get_flashed_messages() %}
+    <p><strong>{{ message }}</strong></p>
+  {% endfor %}
   <form action="/login" method="post">
     <p>
       Username: <br />

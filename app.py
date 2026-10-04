@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session, abort
+from flask import redirect, render_template, request, session, abort, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
@@ -23,16 +23,19 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return render_template("mismatch.html")
+        flash("The passwords do not match")
+        return render_template("register.html")
     password_hash = generate_password_hash(password1)
 
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])
     except sqlite3.IntegrityError:
-        return render_template("used.html")
+        flash("That username is already in use")
+        return render_template("register.html")
 
-    return render_template("done.html")
+    flash("Your username and password have been registered.")
+    return redirect("/login_page")
 
 @app.route("/login_page")
 def login_page():
@@ -53,7 +56,8 @@ def login():
         session["user_id"] = user_id
         return redirect("/")
     else:
-        return render_template("login_error.html")
+        flash("Wrong username or password")
+        return render_template("login_page.html")
 
 @app.route("/logout")
 def logout():
