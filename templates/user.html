@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ user.username }}</title>
+</head>
+
+<body>
+  <h1>{{ user.username }}</h1>
+
+  <p>
+    {{ pics | count }} pictures added to the gallery
+  </p>
+
+  {% if pics %}
+  <p>
+    Latest pic sent at {{ pics[0].sent_at }}
+  </p>
+  <ul>
+  {% for pic in pics %}
+    <li>
+      <a href="/pic/{{ pic.id }}">
+        {{ pic.title }}
+      </a>
+      <br />
+      ({{ pic.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
+  {% endif %}
+</body>
+
+</html>

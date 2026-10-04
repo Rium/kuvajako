@@ -128,3 +128,11 @@ def search():
     query = request.args.get("query")
     results = pics.search(query) if query else []
     return render_template("search.html", query=query, results=results)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    pics = users.get_pics(user_id)
+    return render_template("user.html", user=user, pics=pics)

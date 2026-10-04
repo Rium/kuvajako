@@ -20,3 +20,18 @@ def login(username, password):
         return user_id
     else:
         return None
+
+def get_user(user_id):
+    sql = "SELECT username FROM users WHERE id = ?"
+    result = db.query(sql, [user_id])
+    if result:
+        return result[0] 
+    else:
+        return None
+
+def get_pics(user_id):
+    sql = """SELECT id, title, sent_at, user_id
+             FROM pictures
+             WHERE user_id = ?
+             ORDER BY sent_at DESC"""
+    return db.query(sql, [user_id])
