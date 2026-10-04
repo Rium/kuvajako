@@ -14,6 +14,7 @@
       Title:<br />
       <textarea name="new_title" rows="1" cols="40" maxlength="16" required>{{ pic.title }}</textarea>
     </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Apply" />
   </form>
   {% else %}

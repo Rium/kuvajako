@@ -1,7 +1,6 @@
-import sqlite3
+import sqlite3, secrets
 from flask import Flask
 from flask import redirect, render_template, request, session, abort, flash
-import db
 import config
 import users
 import pics
@@ -9,6 +8,10 @@ import tags
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
 
 @app.route("/")
 def index():
@@ -56,6 +59,7 @@ def login():
     if user_id:
         session["username"] = username
         session["user_id"] = user_id
+        session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
     else:
         flash("Wrong username or password")
@@ -80,6 +84,7 @@ def add_pic():
 
 @app.route("/new_pic", methods=["POST"])
 def new_pic():
+    check_csrf()
     title = request.form["title"]
     user_id = session["user_id"]
     if not title:
@@ -115,6 +120,7 @@ def show_pic(pic_id):
 
 @app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
 def edit_title(pic_id):
+    check_csrf()
     pic = pics.get_pic(pic_id)
     if pic["user_id"] != session["user_id"]:
         abort(403)
@@ -129,6 +135,7 @@ def edit_title(pic_id):
 
 @app.route("/delete/<int:pic_id>", methods=["GET", "POST"])
 def delete_pic(pic_id):
+    check_csrf()
     pic = pics.get_pic(pic_id)
     if pic["user_id"] != session["user_id"]:
         abort(403)
@@ -158,6 +165,7 @@ def show_user(user_id):
 
 @app.route("/new_comment", methods=["POST"])
 def new_comment():
+    check_csrf()
     content = request.form["content"]
     user_id = session["user_id"]
     pic_id = request.form["pic_id"]
@@ -167,6 +175,7 @@ def new_comment():
 
 @app.route("/comment_edit/<int:comment_id>", methods=["GET", "POST"])
 def edit_comment(comment_id):
+    check_csrf()
     comment = pics.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
@@ -181,6 +190,7 @@ def edit_comment(comment_id):
 
 @app.route("/comment_delete/<int:comment_id>", methods=["GET", "POST"])
 def delete_comment(comment_id):
+    check_csrf()
     comment = pics.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
