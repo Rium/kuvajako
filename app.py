@@ -70,7 +70,8 @@ def logout():
 @app.route("/gallery/<int:gallery_id>")
 def gallery(gallery_id):
     pictures = pics.get_pics(gallery_id)
-    return render_template("gallery.html", pictures=pictures)
+    category = pics.get_category(gallery_id)
+    return render_template("gallery.html", pictures=pictures, category = category)
 
 @app.route("/add_pic")
 def add_pic():

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 
+{% for tags in category %}
 <head>
-  <title>Gallery</title>
+  <title>{{ tags.tag }}</title>
 </head>
 
 <body>
-  <h1>Picture gallery</h1>
+  <h1>{{ tags.tag }}</h1>
   <p>
     <a href="/">Back to the front page</a>
   </p>
@@ -33,5 +34,6 @@
   <hr />
   {% endfor %}
 </body>
+{% endfor %}
 
 </html>

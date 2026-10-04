@@ -35,3 +35,7 @@ def search(query):
              WHERE p.user_id = u.id AND p.title LIKE ?
              ORDER BY p.sent_at DESC"""
     return db.query(sql, ["%" + query + "%"])
+
+def get_category(gallery_id):
+    sql = "SELECT tag FROM tags WHERE id = ?"
+    return db.query(sql, [gallery_id])
