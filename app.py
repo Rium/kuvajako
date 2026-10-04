@@ -1,9 +1,9 @@
 import sqlite3
 from flask import Flask
 from flask import redirect, render_template, request, session, abort, flash
-from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
+import users
 import pics
 
 app = Flask(__name__)
@@ -31,11 +31,9 @@ def create():
     if not password1 or len(password1) < 3 or len(password1) > 16:
             flash("Passwords must be between 3 and 16 characters")
             return render_template("register.html")
-    password_hash = generate_password_hash(password1)
 
     try:
-        sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-        db.execute(sql, [username, password_hash])
+        users.new_user(username, password1)
     except sqlite3.IntegrityError:
         flash("That username is already in use")
         return render_template("register.html")
@@ -51,14 +49,11 @@ def login_page():
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    
-    sql = "SELECT password_hash FROM users WHERE username = ?"
-    password_hash = db.query(sql, [username])[0][0]
 
-    if check_password_hash(password_hash, password):
+    user_id = users.login(username, password)
+
+    if user_id:
         session["username"] = username
-        sql = "SELECT id FROM users WHERE username = ?"
-        user_id = db.query(sql, [username])[0][0]
         session["user_id"] = user_id
         return redirect("/")
     else:
