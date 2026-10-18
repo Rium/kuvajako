@@ -153,7 +153,7 @@ def delete_pic(pic_id):
         check_csrf()
         if "continue" in request.form:
             pics.delete_pic(pic["id"])
-            return redirect("/gallery")
+            return redirect("/")
         return redirect("/pic/" + str(pic_id))
 
 @app.route("/search")
