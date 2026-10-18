@@ -171,6 +171,9 @@ def delete_pic(pic_id):
     if request.method == "POST":
         check_csrf()
         if "continue" in request.form:
+            all_comments = comments.get_comment_ids(pic_id)
+            for id in all_comments:
+                comments.delete_comment(id)
             pics.delete_pic(pic["id"])
             return redirect("/")
         return redirect("/pic/" + str(pic_id))

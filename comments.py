@@ -22,3 +22,8 @@ def update_comment(comment_id, new_comment):
 def delete_comment(comment_id):
     sql = "DELETE FROM comments WHERE id = ?"
     db.execute(sql, [comment_id])
+
+def get_comment_ids(pic_id):
+    sql = "SELECT id FROM comments WHERE pic_id = ? ORDER BY id"
+    results = db.query(sql, [pic_id])
+    return [row['id'] for row in results]
