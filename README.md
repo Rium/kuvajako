@@ -2,7 +2,9 @@
 
 ## Kuvaus:
 Sovellus on tarkoitettu kuvien jakamiseen ja kommentoimiseen.
-Tällä hetkellä sovelluksesta löytyy tilin tekeminen, sisään kirjautuminen, kuvien titteleiden luominen yhteen kolmesta aihealueesta, näitten muokkaaminen ja poisto, kommentointi ja näiden muokkaaminen ja poisto. Itse kuvien lisäys ja ulkoasun parantaminen olisi seuraavana. Myös hakutoiminto toimii.
+Tämä nyt jäi vähän raakileeksi, täysin omasta ajankäytöstä johtuen.
+Kaikki perusfunktiot toimivat, pitäis täyttää perusvaatimukset.
+Käyttäjä pystyy rekisteröitymään, kirjautumaan sisään, näkemään kuvia kolmessa eri kategoriassa, lisäämään omia kuviaan tai kommentteja kuviin, muokkaamaan tai poistamaan omia lisäyksiään.
 
 ## Sovelluksen käynnistäminen:
 ### Kloonaa repositorio
@@ -31,5 +33,10 @@ flask run
 Sovellus löytyy nyt haluamallasi selaimella osoitteesta http://127.0.0.1:5000
 
 ## Testaus
-Luo käyttäjätili tai kolme, kokeile lähettää "kuvia", kommentoida niitä, muokata ja poistaa.
+Luo käyttäjätili tai kolme, kokeile lähettää kuvia, kommentoida niitä, muokata ja poistaa.
 Tällä hetkellä tiedettynä ongelmana on että jos yrittää luoda käyttäjätiliä jo olemassa olevalla nimellä uusien tilien tekeminen lukittuu kokonaan.
+
+## Kehitysideoita
+- CSS
+- Käyttäjäystävällisyyden ja yleisen layoutin parannus
+- Koodiin on todennäköisesti jäänyt hassuuksia vanhoista ideoista / yrityksistä jotka on sittenmin vaihdettu, näiden siistiminen.
