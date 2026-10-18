@@ -8,10 +8,10 @@ def get_pics(gallery_id):
              ORDER BY p.id DESC"""
     return db.query(sql, [gallery_id])
 
-def add_pic(title, user_id, tags):
-    sql = "INSERT INTO pictures (title, sent_at, user_id, gallery_id, tag) VALUES (?, datetime('now'), ?, ?, ?)"
+def add_pic(title, user_id, tags, pic):
+    sql = "INSERT INTO pictures (title, sent_at, user_id, gallery_id, tag, picture) VALUES (?, datetime('now'), ?, ?, ?, ?)"
     print(title, user_id, tags, tags[0], tags[1])
-    db.execute(sql, [title, user_id, tags[0], tags[1]])
+    db.execute(sql, [title, user_id, tags[0], tags[1], pic])
     pic_id = db.last_insert_id()
     return pic_id
 
@@ -20,6 +20,11 @@ def get_pic(pic_id):
              FROM pictures p, users u, tags t
              WHERE p.user_id = u.id AND p.tag = t.id AND p.id = ?"""
     return db.query(sql, [pic_id])[0]
+
+def get_picture(pic_id):
+    sql = "SELECT picture FROM pictures WHERE id = ?"
+    result = db.query(sql, [pic_id])
+    return result[0][0] if result else None
 
 def update_title(pic_id, new_title):
     sql = "UPDATE pictures SET title = ? WHERE id = ?"

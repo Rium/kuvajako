@@ -8,6 +8,8 @@
 <body>
   <h1>{{ pic.title }}</h1>
   <hr />
+  <img src="/picture/{{ pic.id }}" />
+  <br />
   Added by <a href="/user/{{ pic.user_id }}">{{ pic.username }}</a> at {{ pic.sent_at }}
   <br />
   {{ pic.tag }}

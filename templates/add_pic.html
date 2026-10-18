@@ -11,12 +11,14 @@
   {% for message in get_flashed_messages() %}
     <p><strong>{{ message }}</strong></p>
   {% endfor %}
-  <form action="/new_pic" method="post">
+  <form action="/new_pic" method="post" enctype="multipart/form-data">
+    <p>
+      Picture: <input type="file" name="pic" accept=".jpg" />
+    </p>
     <p>
       Title: <br />
       <input type="text" name="title" maxlength="50" required/>
     </p>
-  <p>
   {% for category in all_tags %}
   <p>
     {{ category }}: <br />
@@ -28,11 +30,9 @@
     </select>
   </p>
   {% endfor %}
-    </select>
-  </p>
     <p>
       <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-      <input type="submit" value="Send" />
+      <input type="submit" value="Upload" />
     </p>
   </form>
   {% else %}

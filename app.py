@@ -1,6 +1,6 @@
 import sqlite3, secrets
 from flask import Flask
-from flask import redirect, render_template, request, session, abort, flash
+from flask import redirect, render_template, request, session, abort, flash, make_response
 import config
 import users
 import pics
@@ -87,10 +87,26 @@ def new_pic():
     check_csrf()
     title = request.form["title"]
     user_id = session["user_id"]
+
+    if "pic" not in request.files:
+        flash("No picture provided")
+        all_tags = tags.get_tags()
+        return render_template("add_pic.html", all_tags=all_tags)
+    
+    file = request.files["pic"]
+
+    if not file.filename.endswith(".jpg"):
+        flash("Only .jpg files allowed")
+        return render_template("add_pic.html")
+    pic = file.read()
+    if len(pic) > 5000 * 1024:
+        flash("Only pictures under 5MB allowed")
+        return render_template("add_pic.html")
+
     if not title:
         flash("Give your submission a title")
         return render_template("add_pic.html")
-    elif len(title) > 50:
+    if len(title) > 50:
         flash("Title length too long")
         return render_template("add_pic.html")
 
@@ -109,7 +125,7 @@ def new_pic():
     tag_id = [tags.get_id(added_tags[0][1])]
     tag_id.append(tags.get_id(added_tags[1][1]))
 
-    pic_id = pics.add_pic(title, user_id, tag_id)
+    pic_id = pics.add_pic(title, user_id, tag_id, pic)
     return redirect("/pic/" + str(pic_id))
 
 @app.route("/pic/<int:pic_id>")
@@ -155,6 +171,16 @@ def delete_pic(pic_id):
             pics.delete_pic(pic["id"])
             return redirect("/")
         return redirect("/pic/" + str(pic_id))
+
+@app.route("/picture/<int:pic_id>")
+def show_picture(pic_id):
+    pic = pics.get_picture(pic_id)
+    if not pic:
+        abort(404)
+
+    response = make_response(bytes(pic))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
 
 @app.route("/search")
 def search():

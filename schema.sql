@@ -10,7 +10,8 @@ CREATE TABLE pictures (
     sent_at TEXT,
     user_id INTEGER REFERENCES users,
     gallery_id INTEGER REFERENCES tags,
-    tag INTEGER REFERENCES tags
+    tag INTEGER REFERENCES tags,
+    picture BLOB
 );
 
 CREATE TABLE tags (
