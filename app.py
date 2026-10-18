@@ -130,12 +130,18 @@ def edit_title(pic_id):
 
     if request.method == "POST":
         new_title = request.form["new_title"]
+        if not new_title:
+            flash("Give your submission a title")
+            return render_template("edit.html")
+        elif len(new_title) > 50:
+            flash("Title length too long")
+            return render_template("edit.html")
+        
         pics.update_title(pic["id"], new_title)
         return redirect("/pic/" + str(pic_id))
 
 @app.route("/delete/<int:pic_id>", methods=["GET", "POST"])
 def delete_pic(pic_id):
-    check_csrf()
     pic = pics.get_pic(pic_id)
     if pic["user_id"] != session["user_id"]:
         abort(403)
@@ -170,6 +176,13 @@ def new_comment():
     user_id = session["user_id"]
     pic_id = request.form["pic_id"]
 
+    if not content:
+        flash("Cannot add an empty comment")
+        return render_template("pic.html")
+    elif len(content) > 250:
+        flash("Comment too long")
+        return render_template("pic.html")
+
     pics.add_comment(content, user_id, pic_id)
     return redirect("/pic/" + str(pic_id))
 
@@ -185,12 +198,19 @@ def edit_comment(comment_id):
 
     if request.method == "POST":
         new_comment = request.form["new_comment"]
+
+        if not new_comment:
+            flash("Cannot add an empty comment")
+            return render_template("comment_edit.html")
+        elif len(new_comment) > 250:
+            flash("Comment too long")
+            return render_template("comment_edit.html")
+        
         pics.update_comment(comment["id"], new_comment)
         return redirect("/pic/" + str(comment["pic_id"]))
 
 @app.route("/comment_delete/<int:comment_id>", methods=["GET", "POST"])
 def delete_comment(comment_id):
-    check_csrf()
     comment = pics.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
