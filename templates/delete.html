@@ -13,6 +13,7 @@
     <p>
       Are you sure you want to delete this picture?
     </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" name="continue" value="Yes" />
     <input type="submit" name="cancel" value="No" />
   </form>

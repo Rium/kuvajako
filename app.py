@@ -120,7 +120,6 @@ def show_pic(pic_id):
 
 @app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
 def edit_title(pic_id):
-    check_csrf()
     pic = pics.get_pic(pic_id)
     if pic["user_id"] != session["user_id"]:
         abort(403)
@@ -129,6 +128,7 @@ def edit_title(pic_id):
         return render_template("edit.html", pic=pic)
 
     if request.method == "POST":
+        check_csrf()
         new_title = request.form["new_title"]
         if not new_title:
             flash("Give your submission a title")
@@ -150,6 +150,7 @@ def delete_pic(pic_id):
         return render_template("delete.html", pic=pic)
 
     if request.method == "POST":
+        check_csrf()
         if "continue" in request.form:
             pics.delete_pic(pic["id"])
             return redirect("/gallery")
@@ -188,7 +189,6 @@ def new_comment():
 
 @app.route("/comment_edit/<int:comment_id>", methods=["GET", "POST"])
 def edit_comment(comment_id):
-    check_csrf()
     comment = pics.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
@@ -197,6 +197,7 @@ def edit_comment(comment_id):
         return render_template("comment_edit.html", comment=comment)
 
     if request.method == "POST":
+        check_csrf()
         new_comment = request.form["new_comment"]
 
         if not new_comment:
@@ -219,6 +220,7 @@ def delete_comment(comment_id):
         return render_template("comment_delete.html", comment=comment)
 
     if request.method == "POST":
+        check_csrf()
         if "continue" in request.form:
             pics.delete_comment(comment["id"])
         return redirect("/pic/" + str(comment["pic_id"]))
