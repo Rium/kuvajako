@@ -25,7 +25,7 @@ def register():
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
-    username.strip()
+    username = username.strip()
     if not username or len(username) < 3 or len(username) > 16:
         flash("Username must be between 3 and 16 characters")
         return render_template("register.html")
@@ -34,7 +34,7 @@ def create():
     if password1 != password2:
         flash("The passwords do not match")
         return render_template("register.html")
-    password1.strip()
+    password1 = password1.strip()
     if not password1 or len(password1) < 3 or len(password1) > 16:
             flash("Passwords must be between 3 and 16 characters")
             return render_template("register.html")
@@ -90,31 +90,29 @@ def new_pic():
     check_csrf()
     title = request.form["title"]
     user_id = session["user_id"]
+    all_tags = tags.get_tags()
 
     if "pic" not in request.files:
         flash("No picture provided")
-        all_tags = tags.get_tags()
         return render_template("add_pic.html", all_tags=all_tags)
     
     file = request.files["pic"]
 
     if not file.filename.endswith(".jpg"):
         flash("Only .jpg files allowed")
-        return render_template("add_pic.html")
+        return render_template("add_pic.html", all_tags=all_tags)
     pic = file.read()
     if len(pic) > 5000 * 1024:
         flash("Only pictures under 5MB allowed")
-        return render_template("add_pic.html")
+        return render_template("add_pic.html", all_tags=all_tags)
 
     title.strip()
     if not title:
         flash("Give your submission a title")
-        return render_template("add_pic.html")
+        return render_template("add_pic.html", all_tags=all_tags)
     if len(title) > 50:
         flash("Title length too long")
-        return render_template("add_pic.html")
-
-    all_tags = tags.get_tags()
+        return render_template("add_pic.html", all_tags=all_tags)
 
     added_tags = []
     for entry in request.form.getlist("tags"):
@@ -150,13 +148,13 @@ def edit_title(pic_id):
     if request.method == "POST":
         check_csrf()
         new_title = request.form["new_title"]
-        new_title.strip()
+        new_title = new_title.strip()
         if not new_title:
             flash("Give your submission a title")
-            return render_template("edit.html")
+            return render_template("edit.html", pic=pic)
         elif len(new_title) > 50:
             flash("Title length too long")
-            return render_template("edit.html")
+            return render_template("edit.html", pic=pic)
         
         pics.update_title(pic["id"], new_title)
         return redirect("/pic/" + str(pic_id))
@@ -208,13 +206,18 @@ def new_comment():
     user_id = session["user_id"]
     pic_id = request.form["pic_id"]
 
-    content.strip()
+    content = content.strip()
+    user = users.get_user(user_id)
     if not content:
         flash("Cannot add an empty comment")
-        return render_template("pic.html")
+        pic = pics.get_pic(pic_id)
+        all_comments = comments.get_comments(pic_id)
+        return render_template("pic.html", pic=pic, all_comments=all_comments)
     elif len(content) > 250:
         flash("Comment too long")
-        return render_template("pic.html")
+        pic = pics.get_pic(pic_id)
+        all_comments = comments.get_comments(pic_id)
+        return render_template("pic.html", pic=pic, all_comments=all_comments)
 
     comments.add_comment(content, user_id, pic_id)
     return redirect("/pic/" + str(pic_id))
@@ -232,13 +235,13 @@ def edit_comment(comment_id):
         check_csrf()
         new_comment = request.form["new_comment"]
 
-        new_comment.strip()
-        if not new_comment:
+        new_comment = new_comment.strip()
+        if not new_comment or len(new_comment) < 1:
             flash("Cannot add an empty comment")
-            return render_template("comment_edit.html")
+            return render_template("comment_edit.html", comment=comment)
         elif len(new_comment) > 250:
             flash("Comment too long")
-            return render_template("comment_edit.html")
+            return render_template("comment_edit.html", comment=comment)
         
         comments.update_comment(comment["id"], new_comment)
         return redirect("/pic/" + str(comment["pic_id"]))

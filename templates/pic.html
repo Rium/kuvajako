@@ -42,6 +42,9 @@
   {% if session.user_id %}
   <h2>Leave a comment</h2>
 
+  {% for message in get_flashed_messages() %}
+    <p><strong>{{ message }}</strong></p>
+  {% endfor %}
   <form action="/new_comment" method="post">
     <p>
       Viesti:<br />

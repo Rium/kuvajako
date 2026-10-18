@@ -9,6 +9,10 @@
   {% if session.user_id == comment.user_id %}
   <h1>Comment edit</h1>
 
+  {% for message in get_flashed_messages() %}
+    <p><strong>{{ message }}</strong></p>
+  {% endfor %}
+  
   <form action="/comment_edit/{{ comment.id }}" method="post">
     <p>
       Title:<br />
