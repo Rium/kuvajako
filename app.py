@@ -25,6 +25,7 @@ def register():
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
+    username.strip()
     if not username or len(username) < 3 or len(username) > 16:
         flash("Username must be between 3 and 16 characters")
         return render_template("register.html")
@@ -33,6 +34,7 @@ def create():
     if password1 != password2:
         flash("The passwords do not match")
         return render_template("register.html")
+    password1.strip()
     if not password1 or len(password1) < 3 or len(password1) > 16:
             flash("Passwords must be between 3 and 16 characters")
             return render_template("register.html")
@@ -104,6 +106,7 @@ def new_pic():
         flash("Only pictures under 5MB allowed")
         return render_template("add_pic.html")
 
+    title.strip()
     if not title:
         flash("Give your submission a title")
         return render_template("add_pic.html")
@@ -147,6 +150,7 @@ def edit_title(pic_id):
     if request.method == "POST":
         check_csrf()
         new_title = request.form["new_title"]
+        new_title.strip()
         if not new_title:
             flash("Give your submission a title")
             return render_template("edit.html")
@@ -204,6 +208,7 @@ def new_comment():
     user_id = session["user_id"]
     pic_id = request.form["pic_id"]
 
+    content.strip()
     if not content:
         flash("Cannot add an empty comment")
         return render_template("pic.html")
@@ -227,6 +232,7 @@ def edit_comment(comment_id):
         check_csrf()
         new_comment = request.form["new_comment"]
 
+        new_comment.strip()
         if not new_comment:
             flash("Cannot add an empty comment")
             return render_template("comment_edit.html")
