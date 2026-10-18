@@ -135,8 +135,8 @@ def new_pic():
 @app.route("/pic/<int:pic_id>")
 def show_pic(pic_id):
     pic = pics.get_pic(pic_id)
-    comments = comments.get_comments(pic_id)
-    return render_template("pic.html", pic=pic, comments=comments)
+    all_comments = comments.get_comments(pic_id)
+    return render_template("pic.html", pic=pic, all_comments=all_comments)
 
 @app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
 def edit_title(pic_id):

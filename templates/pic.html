@@ -23,7 +23,8 @@
   <p>
     <a href="/gallery/{{ pic.gallery_id }}">Back to the gallery</a>
   </p>
-  {% for comment in comments %}
+  <hr />
+  {% for comment in all_comments %}
   <p>
     {{ comment.username }} ({{ comment.sent_at }}):
   </p>
