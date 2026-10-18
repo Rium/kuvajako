@@ -5,6 +5,7 @@ import config
 import users
 import pics
 import tags
+import comments
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -131,7 +132,7 @@ def new_pic():
 @app.route("/pic/<int:pic_id>")
 def show_pic(pic_id):
     pic = pics.get_pic(pic_id)
-    comments = pics.get_comments(pic_id)
+    comments = comments.get_comments(pic_id)
     return render_template("pic.html", pic=pic, comments=comments)
 
 @app.route("/edit/<int:pic_id>", methods=["GET", "POST"])
@@ -210,12 +211,12 @@ def new_comment():
         flash("Comment too long")
         return render_template("pic.html")
 
-    pics.add_comment(content, user_id, pic_id)
+    comments.add_comment(content, user_id, pic_id)
     return redirect("/pic/" + str(pic_id))
 
 @app.route("/comment_edit/<int:comment_id>", methods=["GET", "POST"])
 def edit_comment(comment_id):
-    comment = pics.get_comment(comment_id)
+    comment = comments.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
 
@@ -233,12 +234,12 @@ def edit_comment(comment_id):
             flash("Comment too long")
             return render_template("comment_edit.html")
         
-        pics.update_comment(comment["id"], new_comment)
+        comments.update_comment(comment["id"], new_comment)
         return redirect("/pic/" + str(comment["pic_id"]))
 
 @app.route("/comment_delete/<int:comment_id>", methods=["GET", "POST"])
 def delete_comment(comment_id):
-    comment = pics.get_comment(comment_id)
+    comment = comments.get_comment(comment_id)
     if comment["user_id"] != session["user_id"]:
         abort(403)
 
@@ -248,5 +249,5 @@ def delete_comment(comment_id):
     if request.method == "POST":
         check_csrf()
         if "continue" in request.form:
-            pics.delete_comment(comment["id"])
+            comments.delete_comment(comment["id"])
         return redirect("/pic/" + str(comment["pic_id"]))
